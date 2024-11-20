@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.NamingConventionBinder;
-using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using ConsoleTables;
-using Gnios.AzureDevops.Cli.Settings;
+using Gnios.Cli.Settings;
 using Microsoft.TeamFoundation.DistributedTask.WebApi;
 using Newtonsoft.Json;
 
-namespace Gnios.AzureDevops.Cli.Commands;
+namespace Gnios.Cli.Commands.AzureDevops;
 
 public class SearchCommand : Command
 {

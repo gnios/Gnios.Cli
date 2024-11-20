@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Gnios.AzureDevops.Cli.Settings;
+using Gnios.Cli.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Gnios.AzureDevops.Cli;
+namespace Gnios.Cli;
 
 internal class Program
 {

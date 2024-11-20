@@ -5,7 +5,7 @@
 // Assembly location: C:\proj\Gnios.Cli\Gnios.Azure.Cli\bin\Debug\net8.0\Gnios.Azure.Cli.dll
 
 #nullable disable
-namespace Gnios.AzureDevops.Cli.Settings
+namespace Gnios.Cli.Settings
 {
   public class AppConfiguration
   {

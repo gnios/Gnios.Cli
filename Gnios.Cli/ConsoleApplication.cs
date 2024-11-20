@@ -1,12 +1,13 @@
 ﻿using System;
 using System.CommandLine;
 using System.Threading.Tasks;
-using Gnios.AzureDevops.Cli.Commands;
-using Gnios.AzureDevops.Cli.Settings;
 using Gnios.Cli.Commands;
+using Gnios.Cli.Settings;
+using Gnios.Cli.Commands;
+using Gnios.Cli.Commands.AzureDevops;
 using Microsoft.Extensions.Configuration;
 
-namespace Gnios.AzureDevops.Cli;
+namespace Gnios.Cli;
 
 public class ConsoleApplication
 {

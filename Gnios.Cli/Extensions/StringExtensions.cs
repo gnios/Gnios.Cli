@@ -1,4 +1,4 @@
-﻿namespace Gnios.AzureDevops.Cli.Extensions
+﻿namespace Gnios.Cli.Extensions
 {
     public static class StringExtensions
     {

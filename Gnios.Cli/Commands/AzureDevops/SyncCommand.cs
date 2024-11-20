@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.NamingConventionBinder;
-using System.IO;
-using System.Threading.Tasks;
-using Gnios.AzureDevops.Cli.Extensions;
-using Gnios.AzureDevops.Cli.Settings;
+using Gnios.Cli.Extensions;
+using Gnios.Cli.Settings;
 using Microsoft.TeamFoundation.DistributedTask.WebApi;
 using Microsoft.VisualStudio.Services.Common;
 using Microsoft.VisualStudio.Services.WebApi;
 using Newtonsoft.Json;
 
-namespace Gnios.AzureDevops.Cli.Commands;
+namespace Gnios.Cli.Commands.AzureDevops;
 
 public class SyncCommand : Command
 {

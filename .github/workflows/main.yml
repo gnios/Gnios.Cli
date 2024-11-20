@@ -22,22 +22,22 @@ jobs:
 
       - name: Extract version number
         id: extract_version
-        run: echo "##[set-output name=VERSION;]$(grep -oP '(?<=<Version>)[^<]+' Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj)"
+        run: echo "##[set-output name=VERSION;]$(grep -oP '(?<=<Version>)[^<]+' Gnios.Cli/Gnios.Cli.csproj)"
 
       - name: Restore dependencies
-        run: dotnet restore Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj
+        run: dotnet restore Gnios.Cli/Gnios.Cli.csproj
 
       - name: Build for Linux
-        run: dotnet build Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj --configuration Release --runtime linux-x64 --no-restore
+        run: dotnet build Gnios.Cli/Gnios.Cli.csproj --configuration Release --runtime linux-x64 --no-restore
 
       - name: Build for Windows
-        run: dotnet build Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj --configuration Release --runtime win-x64 --no-restore
+        run: dotnet build Gnios.Cli/Gnios.Cli.csproj --configuration Release --runtime win-x64 --no-restore
 
       - name: Publish for Linux
-        run: dotnet publish Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj --configuration Release --runtime linux-x64 --output ./publish/linux --no-build
+        run: dotnet publish Gnios.Cli/Gnios.Cli.csproj --configuration Release --runtime linux-x64 --output ./publish/linux --no-build
 
       - name: Publish for Windows
-        run: dotnet publish Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj --configuration Release --runtime win-x64 --output ./publish/windows --no-build
+        run: dotnet publish Gnios.Cli/Gnios.Cli.csproj --configuration Release --runtime win-x64 --output ./publish/windows --no-build
 
       - name: Create Linux release package
         run: tar -czvf release-package-linux-${{ steps.extract_version.outputs.VERSION }}.tar.gz -C ./publish/linux .
