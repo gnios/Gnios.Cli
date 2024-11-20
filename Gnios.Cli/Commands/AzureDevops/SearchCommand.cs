@@ -33,7 +33,7 @@ public class SearchCommand : Command
         var directoryPath = Path.Combine(baseDirectory, "VariableGroupsJsons");
         if (!Directory.Exists(directoryPath))
         {
-            string[] args = ["sync"];
+            string[] args = {"sync"};
             await _syncCommand.InvokeAsync(args);
         }
 

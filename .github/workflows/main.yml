@@ -1,0 +1,89 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.x'
+
+      - name: Extract version number
+        id: extract_version
+        run: echo "##[set-output name=VERSION;]$(grep -oP '(?<=<Version>)[^<]+' Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj)"
+
+      - name: Restore dependencies
+        run: dotnet restore Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj
+
+      - name: Build for Linux
+        run: dotnet build Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj --configuration Release --runtime linux-x64 --no-restore
+
+      - name: Build for Windows
+        run: dotnet build Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj --configuration Release --runtime win-x64 --no-restore
+
+      - name: Publish for Linux
+        run: dotnet publish Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj --configuration Release --runtime linux-x64 --output ./publish/linux --no-build
+
+      - name: Publish for Windows
+        run: dotnet publish Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj --configuration Release --runtime win-x64 --output ./publish/windows --no-build
+
+      - name: Create Linux release package
+        run: tar -czvf release-package-linux-${{ steps.extract_version.outputs.VERSION }}.tar.gz -C ./publish/linux .
+
+      - name: Create Windows release package
+        run: tar -czvf release-package-windows-${{ steps.extract_version.outputs.VERSION }}.tar.gz -C ./publish/windows .
+
+      - name: Upload Linux release package
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-package-linux-${{ steps.extract_version.outputs.VERSION }}
+          path: release-package-linux-${{ steps.extract_version.outputs.VERSION }}.tar.gz
+
+      - name: Upload Windows release package
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-package-windows-${{ steps.extract_version.outputs.VERSION }}
+          path: release-package-windows-${{ steps.extract_version.outputs.VERSION }}.tar.gz
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.extract_version.outputs.VERSION }}
+          release_name: ${{ steps.extract_version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Linux Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release-package-linux-${{ steps.extract_version.outputs.VERSION }}.tar.gz
+          asset_name: release-package-linux-${{ steps.extract_version.outputs.VERSION }}.tar.gz
+          asset_content_type: application/gzip
+
+      - name: Upload Windows Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release-package-windows-${{ steps.extract_version.outputs.VERSION }}.tar.gz
+          asset_name: release-package-windows-${{ steps.extract_version.outputs.VERSION }}.tar.gz
+          asset_content_type: application/gzip

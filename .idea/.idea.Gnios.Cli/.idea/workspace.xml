@@ -10,8 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c603ac2-74c0-4046-b5a2-89eefad450df" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Gnios.AzureDevops.Cli/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gnios.AzureDevops.Cli/Gnios.AzureDevops.Cli.csproj" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +136,7 @@
     <option name="coveragePercentColumnWidth" value="150" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="105" />
+    <option name="symbolColumnWidth" value="272" />
     <coverage-tree-state>
       <expand />
       <select />

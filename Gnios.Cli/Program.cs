@@ -40,7 +40,7 @@ internal class Program
         var appConfiguration = new AppConfiguration();
         configuration.Bind("AppConfiguration", appConfiguration);
         services.AddSingleton(appConfiguration);
-        services.AddSingleton<ConsoleApplication>();
+        services.AddScoped<ConsoleApplication>();
         _serviceProvider = services.BuildServiceProvider(true);
     }
 
