@@ -5,12 +5,12 @@ namespace Gnios.Cli.Commands.AzureDevops;
 
 public class AzureDevopsRootCommand : Command
 {
-    public AzureDevopsRootCommand(AppConfiguration appConfig)
+    public AzureDevopsRootCommand(AppConfiguration appConfig, RootCommand rootCommand)
         : base("devops", "Azure DevOps CLI")
     {
         var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-        var syncCommand = new SyncCommand(baseDirectory, appConfig);
+        var syncCommand = new SyncCommand(baseDirectory, appConfig, rootCommand);
         var searchCommand = new SearchCommand(baseDirectory, syncCommand);
         AddCommand(syncCommand);
         AddCommand(searchCommand);

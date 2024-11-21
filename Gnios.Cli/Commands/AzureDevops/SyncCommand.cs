@@ -1,4 +1,6 @@
 ﻿using System.CommandLine;
+using System.CommandLine.Invocation;
+using System.CommandLine.IO;
 using System.CommandLine.NamingConventionBinder;
 using Gnios.Cli.Extensions;
 using Gnios.Cli.Settings;
@@ -11,9 +13,21 @@ namespace Gnios.Cli.Commands.AzureDevops;
 
 public class SyncCommand : Command
 {
-    public SyncCommand(string baseDirectory, AppConfiguration appConfig) : base("sync", "Synchronize variable groups")
+    public SyncCommand(string baseDirectory, AppConfiguration appConfig, RootCommand rootCommand) : base("sync", "Synchronize variable groups")
     {
-        Handler = CommandHandler.Create(async () => await SyncVars(baseDirectory, appConfig));
+        Handler = CommandHandler.Create<string, string, InvocationContext>(async (variableGroup, variableName, context) =>
+        {
+            if (string.IsNullOrEmpty(appConfig.Pat) || string.IsNullOrEmpty(appConfig.CollectionUri) || string.IsNullOrEmpty(appConfig.ProjectName))
+            {
+                context.Console.Out.WriteLine("Configuration is required.");
+                string[] args = ["configure"];
+                await rootCommand.InvokeAsync(args);
+            }
+            else
+            {
+                await SyncVars(baseDirectory, appConfig);
+            }
+        });
     }
 
     private async Task SyncVars(string baseDirectory, AppConfiguration configuration)

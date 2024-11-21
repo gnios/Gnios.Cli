@@ -17,13 +17,11 @@ public class ConsoleApplication
     {
         _appConfig = appConfig;
     }
+
     public async Task<int> Run(string[] args)
     {
-        var rootCommand = new RootCommand
-        {
-            new ConfigureCommand(),
-            new AzureDevopsRootCommand(_appConfig)
-        };
+        var rootCommand = new RootCommand { new ConfigureCommand() };
+        rootCommand.Add(new AzureDevopsRootCommand(_appConfig, rootCommand));
 
         // string[] debugArgs = {"devops","search", "-vg", "MyVariableGroup", "-vn", "MyVariableName"};
         // return await rootCommand.InvokeAsync(debugArgs);
