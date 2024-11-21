@@ -25,8 +25,8 @@ public class ConsoleApplication
             new AzureDevopsRootCommand(_appConfig)
         };
 
-        // string[] debugArgs = {"configure"};
-        // return await rootCommand.InvokeAsync(debugArgs);
+        string[] debugArgs = {"devops","search", "-vg", "MyVariableGroup", "-vn", "MyVariableName"};
+        return await rootCommand.InvokeAsync(debugArgs);
         return await rootCommand.InvokeAsync(args);
     }
 }

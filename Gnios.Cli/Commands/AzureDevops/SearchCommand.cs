@@ -1,4 +1,6 @@
 ﻿using System.CommandLine;
+using System.CommandLine.Invocation;
+using System.CommandLine.IO;
 using System.CommandLine.NamingConventionBinder;
 using System.Text.RegularExpressions;
 using ConsoleTables;
@@ -12,13 +14,27 @@ public class SearchCommand : Command
 {
     private readonly SyncCommand _syncCommand;
 
-    public SearchCommand(string baseDirectory, AppConfiguration appConfig, SyncCommand syncCommand)
+    public SearchCommand(string baseDirectory, SyncCommand syncCommand)
         : base("search", "Search for a variable group and variables")
     {
         _syncCommand = syncCommand;
-        AddArgument(new Argument<string>("variableGroupName", "The name of the variable group to search for"));
-        AddArgument(new Argument<string>("variableName", () => string.Empty, "The name of the variable to search for"));
+        AddOption(new Option<string>( new[] { "-vg", "--variableGroup" }, "VariableGroupName: The name of the variable group to search for"));
+        AddOption(new Option<string>(new[] { "-vn", "--variableName" }, () => string.Empty, "VariableName: The name of the variable to search for"));
         Handler = CommandHandler.Create<string, string>(async (variableGroupName, variableName) => await SearchVariableGroupAndVariables(variableGroupName, variableName, baseDirectory));
+        
+        Handler = CommandHandler.Create<string, string, InvocationContext>(async (variableGroup, variableName, context) =>
+        {
+            if (string.IsNullOrEmpty(variableGroup))
+            {
+                context.Console.Out.WriteLine("Options are required. Showing help:");
+                string[] args = ["-?"];
+                await this.InvokeAsync(args);
+            }
+            else
+            {
+                await SearchVariableGroupAndVariables(variableGroup, variableName, baseDirectory);
+            }
+        });
     }
 
     private async Task SearchVariableGroupAndVariables(

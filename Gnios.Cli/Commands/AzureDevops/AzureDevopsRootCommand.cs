@@ -11,7 +11,7 @@ public class AzureDevopsRootCommand : Command
         var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         var syncCommand = new SyncCommand(baseDirectory, appConfig);
-        var searchCommand = new SearchCommand(baseDirectory, appConfig, syncCommand);
+        var searchCommand = new SearchCommand(baseDirectory, syncCommand);
         AddCommand(syncCommand);
         AddCommand(searchCommand);
     }
